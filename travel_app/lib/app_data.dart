@@ -1,4 +1,6 @@
 
+// ignore_for_file: constant_identifier_names, unnecessary_const
+
 import './models/category.dart';
 import './models/trip.dart';
 

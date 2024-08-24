@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:travel_app/Screens/categories_trips.dart';
@@ -15,9 +15,9 @@ class CategoryItem extends StatelessWidget {
     required this.id,
   });
   void selectCategory(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(CategoriesTrips.screenRouts , arguments: {
-      'id ' : id,
-      'title' : title,
+    Navigator.of(ctx).pushNamed(CategoriesTrips.screenRouts, arguments: {
+      'id': id,
+      'title': title,
     });
   }
 
