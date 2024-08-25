@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/Screens/categories_Screen.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:travel_app/Screens/categories_trips.dart';
 import 'package:travel_app/Screens/filters_screen.dart';
@@ -9,12 +9,25 @@ import 'package:travel_app/Screens/tabs_screen.dart';
 import 'package:travel_app/Screens/trip_detail_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  Map<String , bool> _filters = {
+   'summer' : false,
+   'wimter' : false,
+    'family' : false,
+  };
 
+  void _changeFilter(Map<String , bool > filterData){
+    
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

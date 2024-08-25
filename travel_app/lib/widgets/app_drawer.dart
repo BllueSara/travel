@@ -34,14 +34,14 @@ class AppDrawer extends StatelessWidget {
             Icons.card_travel,
             
             () {
-              Navigator.of(context).pushNamed('/');
+              Navigator.of(context).pushReplacementNamed('/');
             },
           ),
           buildListTile(
             'التصفيه',
             Icons.filter_list,
             () {
-              Navigator.of(context).pushNamed(FiltersScreen.screenRoute);
+              Navigator.of(context).pushReplacementNamed(FiltersScreen.screenRoute);
             },
           ),
         ],

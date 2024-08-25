@@ -44,6 +44,7 @@ class TripDetailScreen extends StatelessWidget {
     final selectedTrip = Trips_data.firstWhere((trip) => trip.id == tripId);
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.brown[300],
         centerTitle: true,
         title: Text(
@@ -92,7 +93,8 @@ class TripDetailScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: CircleAvatar(
-                      child: Text('يوم ${index + 1}'),
+                      backgroundColor: Colors.brown[300],
+                      child: Text('يوم ${index + 1}' , style: TextStyle(color: Colors.white),),
                     ),
                     title: Text(selectedTrip.program[index]),
                   ),
@@ -105,6 +107,13 @@ class TripDetailScreen extends StatelessWidget {
             height: 30,
           ),
         ]),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.brown[300],
+        child: Icon(Icons.delete , color: Colors.white,),
+        onPressed: () {
+          Navigator.of(context).pop(tripId);
+        },
       ),
     );
   }

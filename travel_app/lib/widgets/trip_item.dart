@@ -11,6 +11,7 @@ class TripItem extends StatelessWidget {
   final int duration;
   final TripType tripType;
   final Season season;
+ final void Function(String) removeItem;
 
   const TripItem({
     super.key,
@@ -18,7 +19,9 @@ class TripItem extends StatelessWidget {
     required this.imageUrl,
     required this.duration,
     required this.tripType,
-    required this.season, required this.id,
+    required this.season, 
+    required this.id,
+    required this.removeItem,
   });
 
   String get seasoneText {
@@ -55,13 +58,18 @@ class TripItem extends StatelessWidget {
     }
   }
 
-  void selectTrip(BuildContext context) {
-    Navigator.of(context).pushNamed(TripDetailScreen.screenRoute , arguments:id );
-  }
+ void selectTrip(BuildContext context, String id) {
+  Navigator.of(context).pushNamed(TripDetailScreen.screenRoute, arguments: id)
+      .then((result) {
+    if (result != null) {
+    }
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap:() => selectTrip(context),
+       onTap: () => selectTrip(context, id),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),

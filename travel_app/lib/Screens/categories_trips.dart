@@ -1,29 +1,55 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:travel_app/app_data.dart';
+import 'package:travel_app/models/trip.dart';
 import 'package:travel_app/widgets/trip_item.dart';
 
-class CategoriesTrips extends StatelessWidget {
+class CategoriesTrips extends StatefulWidget {
   static const screenRouts = '/category-trips';
+
+  @override
+  State<CategoriesTrips> createState() => _CategoriesTripsState();
+}
+
+class _CategoriesTripsState extends State<CategoriesTrips> {
+  late String categoryTitle;
+  late List<Trip> displayTrips;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  bool _isInitalized = false;
+  @override
+  void didChangeDependencies() {
+    if (!_isInitalized) {
+      final routeArgument =
+          ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+      final categoryId = routeArgument['id'];
+      categoryTitle = routeArgument['title']!;
+      displayTrips = Trips_data.where((trip) {
+        return trip.Categoties.contains(categoryId);
+      }).toList();
+      _isInitalized = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _removeTrip(String tripId) {
+    setState(() {
+      displayTrips.removeWhere((trip) => trip.id == tripId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // استخراج البيانات من `ModalRoute`
-    final routeArguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
-
-    // تعيين القيم باستخدام `routeArguments`
-    final categoryTitle = routeArguments?['title'];
-    final categoryId = routeArguments?['id'];
-    final filteredTrips = Trips_data.where((trip) {
-      return trip.Categoties.contains(
-          categoryId); // تأكد من أن هذا يتطابق مع بياناتك
-    }).toList();
 
     return Scaffold(
       appBar: AppBar(
-        
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.brown[300],
         centerTitle: true,
         title: Text(
@@ -37,15 +63,16 @@ class CategoriesTrips extends StatelessWidget {
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           return TripItem(
-            id: filteredTrips[index].id,
-            title: filteredTrips[index].title,
-            imageUrl: filteredTrips[index].imageUrl,
-            duration: filteredTrips[index].duration,
-            tripType: filteredTrips[index].tripType,
-            season: filteredTrips[index].season,
+            id: displayTrips[index].id,
+            title: displayTrips[index].title,
+            imageUrl: displayTrips[index].imageUrl,
+            duration: displayTrips[index].duration,
+            tripType: displayTrips[index].tripType,
+            season: displayTrips[index].season,
+            removeItem: _removeTrip,
           );
         },
-        itemCount: filteredTrips.length,
+        itemCount: displayTrips.length,
       ),
     );
   }
