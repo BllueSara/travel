@@ -1,12 +1,14 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unused_element
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import 'package:travel_app/app_data.dart';
+
 import 'package:travel_app/models/trip.dart';
 import 'package:travel_app/widgets/trip_item.dart';
 
 class CategoriesTrips extends StatefulWidget {
   static const screenRouts = '/category-trips';
+  final List<Trip> availableTrips;
+  CategoriesTrips(this.availableTrips);
 
   @override
   State<CategoriesTrips> createState() => _CategoriesTripsState();
@@ -29,7 +31,7 @@ class _CategoriesTripsState extends State<CategoriesTrips> {
           ModalRoute.of(context)?.settings.arguments as Map<String, String>;
       final categoryId = routeArgument['id'];
       categoryTitle = routeArgument['title']!;
-      displayTrips = Trips_data.where((trip) {
+      displayTrips = widget.availableTrips.where((trip) {
         return trip.Categoties.contains(categoryId);
       }).toList();
       _isInitalized = true;
@@ -45,8 +47,7 @@ class _CategoriesTripsState extends State<CategoriesTrips> {
 
   @override
   Widget build(BuildContext context) {
-    // استخراج البيانات من `ModalRoute`
-
+    // استخراج البيانات من ModalRoute
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),

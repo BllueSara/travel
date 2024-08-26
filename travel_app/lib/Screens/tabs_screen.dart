@@ -1,12 +1,17 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:travel_app/Screens/categories_Screen.dart';
 import 'package:travel_app/Screens/favorites_screen.dart';
+import 'package:travel_app/models/trip.dart';
 import 'package:travel_app/widgets/app_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  
+  final List <Trip> favoriteTrips;
+
+   const TabsScreen({super.key, required this.favoriteTrips, required void Function(String tripId) manageFavorite});
+
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -21,16 +26,20 @@ class _TabsScreenState extends State<TabsScreen> {
 
   int _selestedScreenIndex = 0;
 
-  final List<Map<String, Object>> _screen = [
+   late List<Map<String, Object>> _screen ;
+  @override
+  void initState() {
+  _screen =  [
     {
       'Screen': CategorisScreen(),
       'Title': 'تصنيفات الرحلات',
     },
     {
-      'Screen': FavoritesScreen(),
+      'Screen': FavoritesScreen(favoritesTrips: [],),
       'Title': 'الرحلات المفضلة',
-    }
+    },
   ];
+  }
 
   @override
   Widget build(BuildContext context) {

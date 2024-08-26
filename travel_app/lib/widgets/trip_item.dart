@@ -1,3 +1,4 @@
+
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, dead_code
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class TripItem extends StatelessWidget {
   final int duration;
   final TripType tripType;
   final Season season;
- final void Function(String) removeItem;
+  final Function removeItem;
 
   const TripItem({
     super.key,
@@ -19,7 +20,7 @@ class TripItem extends StatelessWidget {
     required this.imageUrl,
     required this.duration,
     required this.tripType,
-    required this.season, 
+    required this.season,
     required this.id,
     required this.removeItem,
   });
@@ -58,18 +59,20 @@ class TripItem extends StatelessWidget {
     }
   }
 
- void selectTrip(BuildContext context, String id) {
-  Navigator.of(context).pushNamed(TripDetailScreen.screenRoute, arguments: id)
-      .then((result) {
-    if (result != null) {
-    }
-  });
-}
+  void selectTrip(BuildContext context, String id) {
+    Navigator.of(context)
+        .pushNamed(TripDetailScreen.screenRoute, arguments: id)
+        .then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-       onTap: () => selectTrip(context, id),
+        onTap: () => selectTrip(context, id),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -134,8 +137,7 @@ class TripItem extends StatelessWidget {
                           Icons.today,
                           color: Colors.brown[300],
                         ),
-                        SizedBox(
-                          width: 6,
+                        SizedBox(width: 6,
                         ),
                         Text(
                           '$duration ايام',

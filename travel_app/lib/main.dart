@@ -1,33 +1,67 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field, must_be_immutable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:travel_app/Screens/categories_trips.dart';
 import 'package:travel_app/Screens/filters_screen.dart';
 import 'package:travel_app/Screens/tabs_screen.dart';
 import 'package:travel_app/Screens/trip_detail_screen.dart';
+import 'package:travel_app/app_data.dart';
+import 'package:travel_app/models/trip.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  Map<String , bool> _filters = {
-   'summer' : false,
-   'wimter' : false,
-    'family' : false,
-  };
-
-  void _changeFilter(Map<String , bool > filterData){
-    
-  }
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'summer': false,
+    'wimter': false,
+    'family': false,
+  };
+  List<Trip> _availableTrips = Trips_data;
+  List<Trip> _favoriteTrips = [];
+
+  void _changeFilter(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+      _availableTrips = Trips_data.where((trip) {
+        if (_filters['summer'] == true && trip.isInSummer != true) {
+          return false;
+        }
+        if (_filters['winter'] == true && trip.isInWinter != true) {
+          return false;
+        }
+        if (_filters['family'] == true && trip.isForFamilies != true) {
+          return false;
+        }
+
+        return true;
+      }).toList();
+    });
+  }
+
+  void _mangeFavorite(String tripId) {
+    final existingIndex = _favoriteTrips.indexWhere(
+      (trip) => trip.id == tripId,
+    );
+    if (existingIndex >= 0){
+      setState(() {
+        _favoriteTrips.removeAt(existingIndex);
+      });
+    }
+    else {
+      setState(() {
+        _favoriteTrips.add(Trips_data.firstWhere((trip) => trip.id == tripId));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,10 +81,11 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       routes: {
-        '/': (ctx) => TabsScreen(),
-        CategoriesTrips.screenRouts : (ctx) => CategoriesTrips(),
-        TripDetailScreen.screenRoute:(ctx) => TripDetailScreen(),
-        FiltersScreen.screenRoute:(ctx) => FiltersScreen(),
+        '/': (ctx) => TabsScreen(_favoriteTrips),
+        CategoriesTrips.screenRouts: (ctx) => CategoriesTrips(_availableTrips),
+        TripDetailScreen.screenRoute: (ctx) => TripDetailScreen(_mangeFavorite),
+        FiltersScreen.screenRoute: (ctx) =>
+            FiltersScreen(_filters, _changeFilter),
       },
     );
   }
