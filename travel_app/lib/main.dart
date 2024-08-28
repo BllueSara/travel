@@ -1,3 +1,4 @@
+
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, prefer_final_fields, unused_field
 
 import 'package:flutter/material.dart';
@@ -50,16 +51,19 @@ class _MyAppState extends State<MyApp> {
     final existingIndex = _favoriteTrips.indexWhere(
       (trip) => trip.id == tripId,
     );
-    if (existingIndex >= 0){
+    if (existingIndex >= 0) {
       setState(() {
         _favoriteTrips.removeAt(existingIndex);
       });
-    }
-    else {
+    } else {
       setState(() {
         _favoriteTrips.add(Trips_data.firstWhere((trip) => trip.id == tripId));
       });
     }
+  }
+
+  bool _isFavorite(String id) {
+    return _favoriteTrips.any((trip) => trip.id == id);
   }
 
   @override
@@ -83,7 +87,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/': (ctx) => TabsScreen(_favoriteTrips),
         CategoriesTrips.screenRouts: (ctx) => CategoriesTrips(_availableTrips),
-        TripDetailScreen.screenRoute: (ctx) => TripDetailScreen(_mangeFavorite),
+        TripDetailScreen.screenRoute: (ctx) => TripDetailScreen(_mangeFavorite,_isFavorite),
         FiltersScreen.screenRoute: (ctx) =>
             FiltersScreen(_filters, _changeFilter),
       },

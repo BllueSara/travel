@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 
@@ -70,7 +70,7 @@ class _CategoriesTripsState extends State<CategoriesTrips> {
             duration: displayTrips[index].duration,
             tripType: displayTrips[index].tripType,
             season: displayTrips[index].season,
-            removeItem: _removeTrip,
+            //  removeItem: _removeTrip,
           );
         },
         itemCount: displayTrips.length,

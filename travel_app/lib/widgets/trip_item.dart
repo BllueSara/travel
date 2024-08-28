@@ -12,7 +12,7 @@ class TripItem extends StatelessWidget {
   final int duration;
   final TripType tripType;
   final Season season;
-  final Function removeItem;
+ // final Function removeItem;
 
   const TripItem({
     super.key,
@@ -22,7 +22,7 @@ class TripItem extends StatelessWidget {
     required this.tripType,
     required this.season,
     required this.id,
-    required this.removeItem,
+    //required this.removeItem,
   });
 
   String get seasoneText {
@@ -64,7 +64,7 @@ class TripItem extends StatelessWidget {
         .pushNamed(TripDetailScreen.screenRoute, arguments: id)
         .then((result) {
       if (result != null) {
-        removeItem(result);
+       // removeItem(result);
       }
     });
   }
@@ -136,8 +136,7 @@ class TripItem extends StatelessWidget {
                         Icon(
                           Icons.today,
                           color: Colors.brown[300],
-                        ),
-                        SizedBox(width: 6,
+                        ),SizedBox(width: 6,
                         ),
                         Text(
                           '$duration ايام',

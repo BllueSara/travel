@@ -5,6 +5,9 @@ import 'package:travel_app/app_data.dart';
 
 class TripDetailScreen extends StatelessWidget {
   static const screenRoute = '/trip-detail';
+  final Function manageFavorite;
+  final Function isFavorite;
+  TripDetailScreen(this.manageFavorite, this.isFavorite);
 
   Widget buildSectionTitle(String titleText) {
     return Container(
@@ -94,7 +97,10 @@ class TripDetailScreen extends StatelessWidget {
                   ListTile(
                     leading: CircleAvatar(
                       backgroundColor: Colors.brown[300],
-                      child: Text('يوم ${index + 1}' , style: TextStyle(color: Colors.white),),
+                      child: Text(
+                        'يوم ${index + 1}',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                     title: Text(selectedTrip.program[index]),
                   ),
@@ -110,9 +116,12 @@ class TripDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown[300],
-        child: Icon(Icons.star , color: Colors.white,),
+        child: Icon(
+          isFavorite(tripId) ? Icons.star : Icons.star_border,
+          color: Colors.white,
+        ),
         onPressed: () {
-          
+          manageFavorite(tripId);
         },
       ),
     );

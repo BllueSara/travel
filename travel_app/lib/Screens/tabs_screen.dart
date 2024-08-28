@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field, prefer_const_constructors_in_immutables, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:travel_app/Screens/categories_Screen.dart';
@@ -7,11 +7,9 @@ import 'package:travel_app/models/trip.dart';
 import 'package:travel_app/widgets/app_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
-  
-  final List <Trip> favoriteTrips;
+  final List<Trip> favoriteTrips;
 
-   const TabsScreen({super.key, required this.favoriteTrips, required void Function(String tripId) manageFavorite});
-
+  TabsScreen(this.favoriteTrips);
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
@@ -26,19 +24,20 @@ class _TabsScreenState extends State<TabsScreen> {
 
   int _selestedScreenIndex = 0;
 
-   late List<Map<String, Object>> _screen ;
+  late List<Map<String, Object>> _screen;
   @override
   void initState() {
-  _screen =  [
-    {
-      'Screen': CategorisScreen(),
-      'Title': 'تصنيفات الرحلات',
-    },
-    {
-      'Screen': FavoritesScreen(favoritesTrips: [],),
-      'Title': 'الرحلات المفضلة',
-    },
-  ];
+    _screen = [
+      {
+        'Screen': CategorisScreen(),
+        'Title': 'تصنيفات الرحلات',
+      },
+      {
+        'Screen': FavoritesScreen(widget.favoriteTrips),
+        'Title': 'الرحلات المفضلة',
+      },
+    ];
+    super.initState();
   }
 
   @override
@@ -46,13 +45,11 @@ class _TabsScreenState extends State<TabsScreen> {
     // تحويل القيم إلى الأنواع المناسبة
     final selectedScreen = _screen[_selestedScreenIndex]['Screen'] as Widget;
     final selectedTitle = _screen[_selestedScreenIndex]['Title'] as String;
-
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.brown[300],
         centerTitle: true,
-        
         title: Text(
           selectedTitle,
           style: TextStyle(
@@ -62,7 +59,6 @@ class _TabsScreenState extends State<TabsScreen> {
         ),
       ),
       drawer: AppDrawer(),
-      
       body: selectedScreen,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.white,
@@ -86,6 +82,7 @@ class _TabsScreenState extends State<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.star,
+             
             ),
             label: 'المفضله',
           ),
